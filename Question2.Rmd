@@ -1,0 +1,120 @@
+---
+title: "Question 2"
+author: "Yueci Zhou"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r}
+dm <- pharmaversesdtm::dm
+ex <- pharmaversesdtm::ex
+ae <- pharmaversesdtm::ae
+vs <- pharmaversesdtm::vs
+suppdm <- pharmaversesdtm::suppdm
+dm <- convert_blanks_to_na(dm)
+ds <- convert_blanks_to_na(ds)
+ex <- convert_blanks_to_na(ex)
+ae <- convert_blanks_to_na(ae)
+vs <- convert_blanks_to_na(vs)
+suppdm <- convert_blanks_to_na(suppdm)
+
+adsl <- dm %>%
+  select(-DOMAIN)
+
+adsl <- adsl %>%
+  mutate(
+    AGEGR9 = case_when(
+      AGE < 18 ~ "<18",
+      AGE >= 18 & AGE <= 50 ~ "18 - 50",
+      AGE > 50 ~ ">50"
+    ),
+    AGEGR9N = case_when(
+      AGE < 18 ~ 1,
+      AGE >= 18 & AGE <= 50 ~ 2,
+      AGE > 50 ~ 3
+    )
+  )
+
+ex_ext <- ex %>%
+  derive_vars_dtm(
+    dtc = EXSTDTC,
+    new_vars_prefix = "EXST"
+  ) %>%
+  derive_vars_dtm(
+    dtc = EXENDTC,
+    new_vars_prefix = "EXEN",
+    time_imputation = "last"
+  )
+
+adsl <- adsl %>%
+  derive_vars_merged(
+    dataset_add = ex_ext,
+    filter_add = (EXDOSE > 0 |
+                    (EXDOSE == 0 &
+                       str_detect(EXTRT, "PLACEBO"))) & !is.na(EXSTDTM),
+    new_vars = exprs(TRTSDTM = EXSTDTM, TRTSTMF = EXSTTMF),
+    order = exprs(EXSTDTM, EXSEQ),
+    mode = "first",
+    by_vars = exprs(STUDYID, USUBJID)
+  ) %>%
+  derive_vars_merged(
+    dataset_add = ex_ext,
+    filter_add = (EXDOSE > 0 |
+                    (EXDOSE == 0 &
+                       str_detect(EXTRT, "PLACEBO"))) & !is.na(EXENDTM),
+    new_vars = exprs(TRTEDTM = EXENDTM, TRTETMF = EXENTMF),
+    order = exprs(EXENDTM, EXSEQ),
+    mode = "last",
+    by_vars = exprs(STUDYID, USUBJID)
+  ) %>%
+  derive_vars_dtm_to_dt(
+    source_vars = exprs(TRTSDTM, TRTEDTM)
+  ) %>%
+  derive_var_trtdurd() %>%
+  mutate(
+    ITTFL = if_else(!is.na(ARM), "Y", "N")
+  )
+
+vs_last <- vs %>%
+  filter(!is.na(VSSTRESN) & !is.na(VSDTC)) %>%
+  mutate(VSDT = as.Date(VSDTC)) %>%
+  group_by(USUBJID) %>%
+  summarise(VS_LASTDT = max(VSDT), .groups = "drop")
+
+ae_last <- ae %>%
+  filter(!is.na(AESTDTC)) %>%
+  mutate(AESTDT = as.Date(AESTDTC)) %>%
+  group_by(USUBJID) %>%
+  summarise(AE_LASTDT = max(AESTDT), .groups = "drop")
+
+ds_ext <- derive_vars_dt(
+  ds,
+  dtc = DSSTDTC,
+  new_vars_prefix = "DSST"
+)
+
+ds_last <- ds_ext %>%
+  filter(!is.na(DSSTDT)) %>%
+  mutate(DSDT = as.Date(DSSTDT)) %>%
+  group_by(USUBJID) %>%
+  summarise(DS_LASTDT = max(DSDT), .groups = "drop")
+
+trt_last <- ex_ext %>%
+  mutate(EXSTDT = as.Date(EXSTDTC)) %>%
+  group_by(USUBJID) %>%
+  summarise(TRT_LASTDT = max(EXSTDT), .groups = "drop")
+
+adsl <- adsl %>%
+  left_join(vs_last, by = "USUBJID") %>%
+  left_join(ae_last, by = "USUBJID") %>%
+  left_join(ds_last, by = "USUBJID") %>%
+  left_join(trt_last, by = "USUBJID") %>%
+  rowwise() %>%
+  mutate(
+    LSTALVDT = max(
+      c(VS_LASTDT, AE_LASTDT, DS_LASTDT, TRT_LASTDT),
+      na.rm = TRUE
+    )
+  ) %>%
+  ungroup()
+```
