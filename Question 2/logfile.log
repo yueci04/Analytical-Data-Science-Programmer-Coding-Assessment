@@ -1,0 +1,28 @@
+Warning message:
+package 'pharmaversesdtm' was built under R version 4.4.3 
+Warning message:
+package 'admiral' was built under R version 4.4.3 
+
+Attaching package: 'dplyr'
+
+The following objects are masked from 'package:stats':
+
+    filter, lag
+
+The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attaching package: 'lubridate'
+
+The following objects are masked from 'package:base':
+
+    date, intersect, setdiff, union
+
+Warning message:
+package 'lubridate' was built under R version 4.4.2 
+
+Processing complete
+
+=== END: 2026-04-23 00:21:50 ===
