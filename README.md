@@ -13,6 +13,7 @@ This repository contains a clinical programming workflow covering:
 All implementations follow standards aligned with CDISC SDTM/ADaM Implementation Guides and pharmaverse examples.
 
 ## Repository Structure
+.
 ├── README.md
 ├── Question 1/
 │ ├── question_1_sdtm/01_create_ds_domain.R
