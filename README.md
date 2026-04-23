@@ -6,9 +6,9 @@
 
 This repository contains a clinical programming workflow covering:
 
-1. **SDTM Disposition (DS) domain creation** using :contentReference[oaicite:0]{index=0}  
-2. **ADaM ADSL dataset derivation** using :contentReference[oaicite:1]{index=1} and tidyverse tools  
-3. **TLG (Tables, Listings, Graphs) creation** for Adverse Event reporting using `{gtsummary}` and `{ggplot2}`  
+1. SDTM Disposition (DS) domain creation  
+2. ADaM ADSL dataset derivation  
+3. TLG (Tables, Listings, Graphs) for Adverse Event reporting  
 
 All implementations follow standards aligned with CDISC SDTM/ADaM Implementation Guides and pharmaverse examples.
 
