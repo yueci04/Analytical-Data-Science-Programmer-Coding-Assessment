@@ -22,7 +22,7 @@ All implementations follow standards aligned with CDISC SDTM/ADaM Implementation
 │   └── logs/
 │       └── logfile2.log
 │
-├── question_2_adam/
+├── Question 2/
 │   ├── code/
 │   │   └── question_2_adam/create_adsl.R
 │   ├── output/
@@ -30,7 +30,7 @@ All implementations follow standards aligned with CDISC SDTM/ADaM Implementation
 │   └── logs/
 │       └── logfile.log
 │
-├── question_3_tlg/
+├── Question 3/
 │   ├── code/
 │   │   ├── question_3_tlg/01_create_ae_summary_table.R
 │   │   └── question_3_tlg/02_create_visualizations.R
