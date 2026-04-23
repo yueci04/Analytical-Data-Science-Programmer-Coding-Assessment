@@ -15,18 +15,30 @@ All implementations follow standards aligned with CDISC SDTM/ADaM Implementation
 ## Repository Structure
 ├── README.md
 ├── Question 1/
-│ ├── question_1_sdtm/01_create_ds_domain.R
-│ ├── ds.csv
-│ └── logfile2.log
+│   ├── code/
+│   │   └── question_1_sdtm/01_create_ds_domain.R
+│   ├── output/
+│   │   └── ds.csv
+│   └── logs/
+│       └── logfile2.log
 │
-├── Question 2/
-│ ├── question_2_adam/create_adsl.R
-│ ├── adsl.csv
-│ └── logfile.log
+├── question_2_adam/
+│   ├── code/
+│   │   └── question_2_adam/create_adsl.R
+│   ├── output/
+│   │   └── adsl.csv
+│   └── logs/
+│       └── logfile.log
 │
-├── Question 3/
-│ ├── question_3_tlg/01_create_ae_summary_table.R
-│ ├── question_3_tlg/02_create_visualizations.R
-│ ├── table.docx
-│ ├── Plot1.png
-│ └── Plot2.png
+├── question_3_tlg/
+│   ├── code/
+│   │   ├── question_3_tlg/01_create_ae_summary_table.R
+│   │   └── question_3_tlg/02_create_visualizations.R
+│   ├── output/
+│   │   ├── table.docx
+│   │   ├── plot1.png
+│   │   └── plot2.png
+│   └── logs/
+        ├── run.log
+│       └── run2.log
+
