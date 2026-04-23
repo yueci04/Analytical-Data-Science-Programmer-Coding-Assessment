@@ -13,6 +13,8 @@ This repository contains a clinical programming workflow covering:
 All implementations follow standards aligned with CDISC SDTM/ADaM Implementation Guides and pharmaverse examples.
 
 ## Repository Structure
+
+```text
 ├── README.md
 ├── Question 1/
 │   ├── code/
@@ -42,3 +44,4 @@ All implementations follow standards aligned with CDISC SDTM/ADaM Implementation
         ├── run.log
 │       └── run2.log
 
+```
